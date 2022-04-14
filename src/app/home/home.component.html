@@ -1,0 +1,63 @@
+<section class="jumbotron">
+  <h2>
+    <img src="https://cdn.auth0.com/blog/logos/auth0-loves-angular.png" alt="Auth0 loves Angular logo"/>
+  </h2>
+  <h1>Auth0 QuickStart</h1>
+
+  <p>Start your next Angular app with authentication out of the box and get to building that next great app in five simple steps.</p>
+
+  <div class="btn btn-success btn-lg" *ngIf="!authService.isLoggedIn()" (click)="signup()">Sign Up for Free</div>
+
+  <div class="btn btn-danger btn-lg" *ngIf="authService.isLoggedIn()" (click)="authService.logout()">Logout</div>
+</section>
+
+<article class="card-docs">
+  <i class="card-docs-icon icon-budicon-499 orange"></i>
+  <h2 class="card-docs-title">Step 1</h2>
+  <p class="card-docs-description">
+    Sign up for a <strong>free</strong> Auth0 account.
+  </p>
+</article>
+
+<article class="card-docs">
+  <i class="card-docs-icon icon-budicon-499 orange"></i>
+  <h2 class="card-docs-title">Step 2</h2>
+  <p class="card-docs-description">
+    In your Auth0 application settings:
+  </p>
+  <p class="card-docs-description">
+    Set <code>{{url}}callback</code> as an <strong>Allowed Callback URLs</strong>.
+  </p>
+  <p class="card-docs-description">
+    Set <code>{{url.substring(0, url.length - 1)}}</code> as an <strong>Allowed Logout URLs</strong>.
+  </p>
+  <p class="card-docs-description">
+    Set <code>{{url.substring(0, url.length - 1)}}</code> as an <strong>Allowed Web Origins</strong>.
+  </p>
+</article>
+
+<article class="card-docs"><i class="card-docs-icon icon-budicon-499 orange"></i>
+  <h2 class="card-docs-title">Step 3</h2>
+  <p class="card-docs-description">Replace the values of <code>clientID</code> and <code>domain</code> in <code>src/environments/environment.ts</code> with the values of <strong>Client ID</strong> and <strong>Domain</strong> from the Auth0 Application Settings.</p>
+</article>
+
+<article class="card-docs">
+  <i class="card-docs-icon icon-budicon-499 orange"></i>
+  <h2 class="card-docs-title">Step 4</h2>
+  <p class="card-docs-description" *ngIf="!authService.isLoggedIn()"><a class="btn btn-success" (click)="authService.login()">Login</a></p>
+  <p class="card-docs-description" *ngIf="authService.isLoggedIn()">You are already logged in. Proceed to next step!</p>
+</article>
+
+<article class="card-docs">
+  <i class="card-docs-icon icon-budicon-499 orange"></i>
+  <h2 class="card-docs-title">Step 5</h2>
+  <p class="card-docs-description">Access <a routerLink="/account">guarded route</a>. <strong>You must be logged in to do this.<br /> <span *ngIf="!authService.isLoggedIn()">You're currently not logged in!</span><span *ngIf="authService.isLoggedIn()">You are logged in!</span></strong></p>
+</article>
+
+<article class="card-docs"><i class="card-docs-icon icon-budicon-499 orange"></i>
+  <h2 class="card-docs-title">Done!</h2>
+  <p class="card-docs-description">Export your project from StackBlitz and build the rest of your app or build it right here! <br /> <a href="https://auth0.com/docs/quickstart/spa/angular2?utm_source=stackblitz&utm_medium=devsponsor&utm_campaign=stackblitz-angular">Read the docs</a> to learn more!</p>
+</article>
+
+<div class="try-banner"><span>Don't have an account yet?</span><a class="btn btn-success btn-lg" (click)="signup()">Try Auth0 for Free</a>
+</div>
