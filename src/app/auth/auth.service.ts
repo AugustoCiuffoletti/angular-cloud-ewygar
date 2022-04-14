@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import * as auth0 from "auth0-js";
-import { environment } from "../../environments/environment";
-import { Router } from "@angular/router";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from '@angular/core';
+import * as auth0 from 'auth0-js';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 (window as any).global = window;
 
@@ -12,20 +12,20 @@ export class AuthService {
   private auth0 = new auth0.WebAuth({
     clientID: environment.auth.clientID,
     domain: environment.auth.domain,
-    responseType: "id_token token",
-    redirectUri: environment.auth.redirect
+    responseType: 'id_token token',
+    redirectUri: environment.auth.redirect,
   });
 
-  private loggedInKey = "isLoggedIn";
+  private loggedInKey = 'isLoggedIn';
 
   // Store authentication data
   tokenData$ = new BehaviorSubject(null);
   userProfile$ = new BehaviorSubject(null);
 
   // Authentication Navigation
-  onAuthSuccessURL = "/";
-  returnURL = "http://localhost:4200";
-  onAuthFailureURL = "/";
+  onAuthSuccessURL = '/';
+  returnURL = 'https://angular-cloud-ewygar.stackblitz.io';
+  onAuthFailureURL = '/';
 
   constructor(private router: Router) {}
 
@@ -33,7 +33,7 @@ export class AuthService {
     if (this.isLoggedIn()) {
       this.checkSession()
         .then(this.saveAuthData)
-        .catch(err => {
+        .catch((err) => {
           localStorage.removeItem(this.loggedInKey);
           this.router.navigate([this.onAuthFailureURL]);
         });
@@ -47,7 +47,7 @@ export class AuthService {
 
     this.auth0.logout({
       returnTo: this.returnURL,
-      clientID: environment.auth.clientID
+      clientID: environment.auth.clientID,
     });
   };
 
@@ -57,10 +57,10 @@ export class AuthService {
   handleLoginCallback = () => {
     if (window.location.hash && !this.isLoggedIn()) {
       this.parseHash()
-        .then(authResult => {
+        .then((authResult) => {
           this.saveAuthData(authResult);
 
-          window.location.hash = "";
+          window.location.hash = '';
 
           this.router.navigate([this.onAuthSuccessURL]);
         })
@@ -78,14 +78,14 @@ export class AuthService {
     );
   };
 
-  private saveAuthData = authResult => {
+  private saveAuthData = (authResult) => {
     // Save authentication data and update login status subject
 
     localStorage.setItem(this.loggedInKey, JSON.stringify(true));
 
     this.tokenData$.next({
       expiresAt: authResult.expiresIn * 1000 + Date.now(),
-      accessToken: authResult.accessToken
+      accessToken: authResult.accessToken,
     });
     this.userProfile$.next(authResult.idTokenPayload);
   };
@@ -101,7 +101,7 @@ export class AuthService {
 
   // Utility functions
 
-  handleError = err => {
+  handleError = (err) => {
     if (err.error_description) {
       console.error(`Error: ${err.error_description}`);
     } else {
