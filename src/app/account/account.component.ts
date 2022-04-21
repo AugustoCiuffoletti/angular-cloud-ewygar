@@ -1,43 +1,39 @@
-import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../auth/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { MongoDB } from './mongodb.service';
 
 @Component({
-  selector: "app-account",
-  templateUrl: "./account.component.html"
+  selector: 'app-account',
+  templateUrl: './account.component.html',
 })
 export class AccountComponent implements OnInit {
   profile: any;
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, private db: MongoDB) {}
 
   ngOnInit() {
-    this.authService.userProfile$.subscribe(data => {
+    this.authService.userProfile$.subscribe((data) => {
       if (data) {
         this.profile = { ...data };
       }
     });
   }
 
-  remove(query:string) {
+  remove(query: string) {
     const xhttp = new XMLHttpRequest();
     let message: string;
     console.log(query);
-    try {
-      xhttp.onload = function () {
-        console.log(this.responseText);
-      };
-      xhttp.open(
-        'GET',
-        `https://data.mongodb-api.com/app/underlandscape-app-fwkpt/endpoint/remove?secret=czYZJvY2&source=${query}`,
-        false
-      );
-      xhttp.setRequestHeader('Content-type', 'application/json');
-      xhttp.send();
-    } catch (e) {
-      console.error(e);
-      message = e;
-      throw e;
-    }
-    document.getElementById('removeOutput').innerHTML = message;
-  };
+    var obs = this.db.remove(query);
+    obs.subscribe({
+      next: (responseText: string) => {
+        console.log(responseText);
+        document.getElementById('removeOutput').innerHTML = responseText;
+      },
+      error: (e: Error) => {
+        console.error(e);
+        document.getElementById('removeOutput').innerHTML =  e.message;
+        throw e.message;
+      }
+    });
+  }
 }

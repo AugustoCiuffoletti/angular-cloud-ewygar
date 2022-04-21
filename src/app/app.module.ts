@@ -9,6 +9,8 @@ import { AccountComponent } from "./account/account.component";
 import { CallbackComponent } from "./callback/callback.component";
 
 import { AuthService } from "./auth/auth.service";
+import { MongoDB } from "./account/mongodb.service";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,8 +19,8 @@ import { AuthService } from "./auth/auth.service";
     AccountComponent,
     CallbackComponent
   ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [AuthService],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  providers: [AuthService, MongoDB],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
