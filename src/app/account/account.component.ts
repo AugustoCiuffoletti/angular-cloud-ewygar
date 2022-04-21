@@ -28,10 +28,12 @@ export class AccountComponent implements OnInit {
       next: (responseText: string) => {
         console.log(responseText);
         document.getElementById('removeOutput').innerHTML = responseText;
+        (<HTMLInputElement> document.getElementById('removeQuery')).value='';
       },
       error: (e: Error) => {
         console.error(e);
         document.getElementById('removeOutput').innerHTML =  e.message;
+        (<HTMLInputElement> document.getElementById('removeQuery')).value='';
         throw e.message;
       }
     });
