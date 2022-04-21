@@ -3,14 +3,7 @@ import { AuthService } from "../auth/auth.service";
 
 @Component({
   selector: "app-account",
-  template: `
-    <section *ngIf="profile" class="jumbotron">
-      <h2><img src="{{profile.picture}}" alt="Jumbotron image"/></h2>
-      <h1>{{profile.name}}</h1>
-      <p>Well done!</p>
-      <div class="btn btn-success btn-lg" routerLink="/">Back to Homepage</div>
-    </section>
-  `
+  templateUrl: "./account.component.html"
 })
 export class AccountComponent implements OnInit {
   profile: any;
@@ -24,4 +17,27 @@ export class AccountComponent implements OnInit {
       }
     });
   }
+
+  remove(query:string) {
+    const xhttp = new XMLHttpRequest();
+    let message: string;
+    console.log(query);
+    try {
+      xhttp.onload = function () {
+        console.log(this.responseText);
+      };
+      xhttp.open(
+        'GET',
+        `https://data.mongodb-api.com/app/underlandscape-app-fwkpt/endpoint/remove?secret=czYZJvY2&source=${query}`,
+        false
+      );
+      xhttp.setRequestHeader('Content-type', 'application/json');
+      xhttp.send();
+    } catch (e) {
+      console.error(e);
+      message = e;
+      throw e;
+    }
+    document.getElementById('removeOutput').innerHTML = message;
+  };
 }
