@@ -35,10 +35,11 @@ export class MongoDB {
 
   public upload(file: File, source: string): Observable<Object> {
     let fileReader = new FileReader();
+    let data = {};
     fileReader.readAsText(file);
     fileReader.onload = function () {
       try {
-        let data = JSON.parse(fileReader.result);
+        data = JSON.parse(fileReader.result as string);
         if (data['type'] !== 'FeatureCollection') {
           throw 'Not a FeatureCollection';
         }
@@ -52,12 +53,13 @@ export class MongoDB {
       } catch (e) {
         console.error('Parse error: ' + e);
       }
-      const formData = new FormData();
-      formData.append('features', filename);
-      return this.http.post(
-        `${this.URL}/upload_geojson?secret=arazHX6V`,
-        formData
-      );
     };
+    // QUi bisogna aspettare che abbia finito!
+    const formData = new FormData();
+    formData.append('features', JSON.stringify(data));
+    return this.http.post(
+      `${this.URL}/upload_geojson?secret=arazHX6V`,
+      formData
+    );
   }
 }
