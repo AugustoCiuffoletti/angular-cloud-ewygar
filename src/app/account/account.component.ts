@@ -65,15 +65,35 @@ export class AccountComponent implements OnInit {
           ).innerHTML = `A source named ${source} has been already uploaded`;
           throw `${source} is duplicate`;
         }
-        let obs = this.db.upload(file, source);
-        obs.subscribe({
-          next: (responseText: string) => {
-            console.log('Uploaded');
-          },
-          error: (e: Error) => {
-            console.log('Error');
-          },
-        });
+        let fileReader = new FileReader();
+        let data = {};
+        fileReader.readAsText(file);
+        fileReader.onload = () => {
+          try {
+            data = JSON.parse(fileReader.result as string);
+            if (data['type'] !== 'FeatureCollection') {
+              throw 'Not a FeatureCollection';
+            }
+            let n = 0;
+            for (let feature of data['features']) {
+              feature.source = file.name.split('.')[0];
+              feature.serial = n + 1;
+              //        console.log(JSON.stringify(feature));
+              n = n + 1;
+            }
+            let obs = this.db.upload(file, source);
+            obs.subscribe({
+              next: (responseText: string) => {
+                console.log('Uploaded');
+              },
+              error: (e: Error) => {
+                console.log('Error');
+              },
+            });
+          } catch (e) {
+            console.error('Parse error: ' + e);
+          }
+        };
       },
       error: (e: Error) => {
         console.error(e);

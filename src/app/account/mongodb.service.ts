@@ -34,26 +34,7 @@ export class MongoDB {
   }
 
   public upload(file: File, source: string): Observable<Object> {
-    let fileReader = new FileReader();
-    let data = {};
-    fileReader.readAsText(file);
-    fileReader.onload = function () {
-      try {
-        data = JSON.parse(fileReader.result as string);
-        if (data['type'] !== 'FeatureCollection') {
-          throw 'Not a FeatureCollection';
-        }
-        let n = 0;
-        for (let feature of data.features) {
-          feature.source = file.name.split('.')[0];
-          feature.serial = n + 1;
-          //        console.log(JSON.stringify(feature));
-          n = n + 1;
-        }
-      } catch (e) {
-        console.error('Parse error: ' + e);
-      }
-    };
+    
     // QUi bisogna aspettare che abbia finito!
     const formData = new FormData();
     formData.append('features', JSON.stringify(data));
