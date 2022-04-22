@@ -81,9 +81,8 @@ export class AccountComponent implements OnInit {
               //console.log(JSON.stringify(feature));
               n = n + 1;
             }
-            console.log(file + ' ' + source);
-            let obs = this.db.upload(JSON.stringify(data));
-            console.log('Hallo');
+            let obs = this.db.upload(JSON.stringify(data['features']));
+            console.log(JSON.stringify(data));
             obs.subscribe({
               next: (responseText: string) => {
                 console.log('Uploaded ' + responseText);

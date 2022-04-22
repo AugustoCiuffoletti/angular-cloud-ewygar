@@ -36,9 +36,14 @@ export class MongoDB {
   public upload(data: string): Observable<Object> {
     //  const formData = new FormData();
     //  formData.append('features', data);
+    console.log(data);
     const headers = new HttpHeaders().set('content-type', 'application/json');
-    return this.http.post(`${this.URL}/upload_geojson?secret=${this.uploadSecret}`, data, {
-      headers: headers,
-    });
+    return this.http.post(
+      `${this.URL}/upload_geojson?secret=${this.uploadSecret}`,
+      data,
+      {
+        headers: headers,
+      }
+    );
   }
 }
