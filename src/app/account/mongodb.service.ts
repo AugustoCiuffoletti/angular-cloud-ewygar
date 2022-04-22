@@ -33,14 +33,12 @@ export class MongoDB {
     });
   }
 
-  public upload(file: File, source: string): Observable<Object> {
-    
-    // QUi bisogna aspettare che abbia finito!
-    const formData = new FormData();
-    formData.append('features', JSON.stringify(data));
-    return this.http.post(
-      `${this.URL}/upload_geojson?secret=arazHX6V`,
-      formData
-    );
+  public upload(data: string): Observable<Object> {
+    //  const formData = new FormData();
+    //  formData.append('features', data);
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.post(`${this.URL}/upload_geojson?secret=${this.uploadSecret}`, data, {
+      headers: headers,
+    });
   }
 }

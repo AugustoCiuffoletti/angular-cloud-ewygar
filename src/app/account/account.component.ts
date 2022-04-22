@@ -78,16 +78,18 @@ export class AccountComponent implements OnInit {
             for (let feature of data['features']) {
               feature.source = file.name.split('.')[0];
               feature.serial = n + 1;
-              //        console.log(JSON.stringify(feature));
+              //console.log(JSON.stringify(feature));
               n = n + 1;
             }
-            let obs = this.db.upload(file, source);
+            console.log(file + ' ' + source);
+            let obs = this.db.upload(JSON.stringify(data));
+            console.log('Hallo');
             obs.subscribe({
               next: (responseText: string) => {
-                console.log('Uploaded');
+                console.log('Uploaded ' + responseText);
               },
               error: (e: Error) => {
-                console.log('Error');
+                console.log('Error: ' + JSON.stringify(e));
               },
             });
           } catch (e) {
