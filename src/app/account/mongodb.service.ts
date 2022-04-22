@@ -15,7 +15,7 @@ export class MongoDB {
     this.key = '9cf84c28';
   }
 
-// removes documents based on query string
+  // removes documents based on query string
   public remove(query: string): Observable<Object> {
     console.log(query);
     const headers = new HttpHeaders().set('content-type', 'application/json');
@@ -24,14 +24,13 @@ export class MongoDB {
       { headers: headers }
     );
   }
-// returns object with statistics about matched documents
+  // returns object with statistics about matched documents
   public stat(query: string): Observable<Object> {
     console.log(query);
     const headers = new HttpHeaders().set('content-type', 'application/json');
-    return this.http.get(
-      `${this.URL}/stat?source=${query}`,
-      { headers: headers }
-    );
+    return this.http.get(`${this.URL}/stat?source=${query}`, {
+      headers: headers,
+    });
   }
 
   public upload(file: File, source: string): Observable<Object> {
@@ -50,11 +49,15 @@ export class MongoDB {
           //        console.log(JSON.stringify(feature));
           n = n + 1;
         }
-    const formData = new FormData();
-    formData.append("features", filename);
-    return this.http.post(
-      `${this.URL}/upload_geojson?secret=arazHX6V`, 
-      formData
-    );
+      } catch (e) {
+        console.error('Parse error: ' + e);
+      }
+      const formData = new FormData();
+      formData.append('features', filename);
+      return this.http.post(
+        `${this.URL}/upload_geojson?secret=arazHX6V`,
+        formData
+      );
+    };
   }
 }
