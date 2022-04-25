@@ -1,13 +1,12 @@
+<span *ngIf="!authService.isLoggedIn()">
 <section class="jumbotron">
-
-<p *ngIf="!authService.isLoggedIn()"><a class="btn btn-success" (click)="authService.login()">Login</a></p>
-
-<div class="btn btn-danger btn-lg" *ngIf="authService.isLoggedIn()" (click)="authService.logout()">Logout</div>
+<a class="btn btn-success" (click)="authService.login()">Login</a>
 </section>
+<p> Complete the login process to access the GIS toolbox!</p>
+</span>
 
-<article class="card-docs">
-  <i class="card-docs-icon icon-budicon-499 orange"></i>
-  <h2 class="card-docs-title">Step 5</h2>
-  <p class="card-docs-description">Access <a routerLink="/account">guarded route</a>. <strong>You must be logged in to do this.<br /> <span *ngIf="!authService.isLoggedIn()">You're currently not logged in!</span><span *ngIf="authService.isLoggedIn()">You are logged in!</span></strong></p>
-</article>
+<span *ngIf="authService.isLoggedIn()">
+<p>You can now access the <a routerLink="/account">GIS toolkit</a>!
+<div class="btn btn-danger btn-lg" (click)="authService.logout()">Logout</div>
+</span>
 
