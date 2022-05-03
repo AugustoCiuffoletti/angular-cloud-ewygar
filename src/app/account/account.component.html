@@ -1,15 +1,5 @@
 <section *ngIf="profile">
-  <h3>Upload</h3>
-  <p>
-    <input
-      #filename
-      type="file"
-      class="file-upload"
-      id="uploadQuery"
-      (change)="upload($event)"
-    />
-  </p>
-  <div id="uploadOutput"></div>
+  <app-upload> </app-upload>
   <h3>Remove</h3>
   <p>
     <input
